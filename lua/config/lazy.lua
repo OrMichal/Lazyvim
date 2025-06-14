@@ -16,36 +16,46 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
+
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    -- odstranil jsem tady import extras.coding.cmp, protože neexistuje
+
+    -- pokud chceš nvim-cmp explicitně, přidej ho zde ručně:
+    {
+      "hrsh7th/nvim-cmp",
+      enabled = true,
+      event = "InsertEnter",
+      dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "saadparwaiz1/cmp_luasnip",
+        "L3MON4D3/LuaSnip",
+      },
+      config = function()
+        -- zde můžeš require svoji konfiguraci cmp,
+        -- např. pokud máš lua/plugins/cmp.lua
+        pcall(require, "plugins.cmp")
+      end,
+    },
+
     -- import/override with your plugins
     { import = "plugins" },
   },
   defaults = {
-    -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-    -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
     lazy = false,
-    -- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-    -- have outdated releases, which may break your Neovim install.
-    version = false, -- always use the latest git commit
-    -- version = "*", -- try installing the latest stable version for plugins that support semver
+    version = false,
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = {
-    enabled = true, -- check for plugin updates periodically
-    notify = false, -- notify on update
-  }, -- automatically check for plugin updates
+  checker = { enabled = true, notify = false },
   performance = {
     rtp = {
-      -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
         "tarPlugin",
         "tohtml",
         "tutor",
@@ -54,8 +64,6 @@ require("lazy").setup({
     },
   },
   opts = {
-    rocks = {
-      enabled = false,
-    },
+    rocks = { enabled = false },
   },
 })
