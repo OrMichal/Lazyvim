@@ -6,7 +6,7 @@ return {
 		opts = {},
 	},
 	{
-		"telescope.nvim",
+		"nvim-telescope/telescope.nvim",
 		priority = 1000,
 		dependencies = {
 			{
@@ -14,6 +14,7 @@ return {
 				build = "make",
 			},
 			"nvim-telescope/telescope-file-browser.nvim",
+			"nvim-lua/plenary.nvim",
 		},
 		keys = {
 			{
